@@ -214,7 +214,16 @@ class BodyRewriter {
   }
   element(element) {
     element.append(
-      `<script>
+      `
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-35W0C8N7CY"></script>
+      <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-35W0C8N7CY');
+      </script>
+      <script>
       window.CONFIG.domainBaseUrl = 'https://${MY_DOMAIN}';
       const SLUG_TO_PAGE = ${JSON.stringify(this.SLUG_TO_PAGE)};
       const PAGE_TO_SLUG = {};
