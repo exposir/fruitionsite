@@ -1,7 +1,7 @@
 /* CONFIGURATION STARTS HERE */
 
 /* Step 1: enter your domain name like fruitionsite.com */
-const MY_DOMAIN = "fruitionsite.com";
+const MY_DOMAIN = "notion.exposir.com";
 
 /*
  * Step 2: enter your URL slug to page ID mapping
@@ -9,16 +9,15 @@ const MY_DOMAIN = "fruitionsite.com";
  * The value on the right is the Notion page ID
  */
 const SLUG_TO_PAGE = {
-  "": "771ef38657244c27b9389734a9cbff44",
+  "": "4754586cfce24175bdf552779bbe5cba",
   thanks: "9d9864f5338b47b0a7f42e0f0e2bbf46",
   showcase: "92053970e5084019ac096d2df7e7f440",
-  roadmap: "7d4b21bfb4534364972e8bf9f68c2c36"
+  roadmap: "7d4b21bfb4534364972e8bf9f68c2c36",
 };
 
 /* Step 3: enter your page title and description for SEO purposes */
-const PAGE_TITLE = "Fruition";
-const PAGE_DESCRIPTION =
-  "Free, Open Source Toolkit For Customizing Your Notion Page";
+const PAGE_TITLE = "Exposir";
+const PAGE_DESCRIPTION = "Exposir Blog and Showcase";
 
 /* Step 4: enter a Google Font name, you can choose from https://fonts.google.com */
 const GOOGLE_FONT = "Rubik";
@@ -31,14 +30,14 @@ const CUSTOM_SCRIPT = ``;
 const PAGE_TO_SLUG = {};
 const slugs = [];
 const pages = [];
-Object.keys(SLUG_TO_PAGE).forEach(slug => {
+Object.keys(SLUG_TO_PAGE).forEach((slug) => {
   const page = SLUG_TO_PAGE[slug];
   slugs.push(slug);
   pages.push(page);
   PAGE_TO_SLUG[page] = slug;
 });
 
-addEventListener("fetch", event => {
+addEventListener("fetch", (event) => {
   event.respondWith(fetchAndApply(event.request));
 });
 
@@ -56,7 +55,7 @@ function generateSitemap() {
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type"
+  "Access-Control-Allow-Headers": "Content-Type",
 };
 
 function handleOptions(request) {
@@ -67,14 +66,14 @@ function handleOptions(request) {
   ) {
     // Handle CORS pre-flight request.
     return new Response(null, {
-      headers: corsHeaders
+      headers: corsHeaders,
     });
   } else {
     // Handle standard OPTIONS request.
     return new Response(null, {
       headers: {
-        Allow: "GET, HEAD, POST, PUT, OPTIONS"
-      }
+        Allow: "GET, HEAD, POST, PUT, OPTIONS",
+      },
     });
   }
 }
@@ -84,7 +83,7 @@ async function fetchAndApply(request) {
     return handleOptions(request);
   }
   let url = new URL(request.url);
-  url.hostname = 'www.notion.so';
+  url.hostname = "www.notion.so";
   if (url.pathname === "/robots.txt") {
     return new Response("Sitemap: https://" + MY_DOMAIN + "/sitemap.xml");
   }
@@ -108,13 +107,15 @@ async function fetchAndApply(request) {
   } else if (url.pathname.startsWith("/api")) {
     // Forward API
     response = await fetch(url.toString(), {
-      body: url.pathname.startsWith('/api/v3/getPublicPageData') ? null : request.body,
+      body: url.pathname.startsWith("/api/v3/getPublicPageData")
+        ? null
+        : request.body,
       headers: {
         "content-type": "application/json;charset=UTF-8",
         "user-agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36"
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
       },
-      method: "POST"
+      method: "POST",
     });
     response = new Response(response.body, response);
     response.headers.set("Access-Control-Allow-Origin", "*");
@@ -126,12 +127,12 @@ async function fetchAndApply(request) {
     pages.indexOf(url.pathname.slice(1)) === -1 &&
     url.pathname.slice(1).match(/[0-9a-f]{32}/)
   ) {
-    return Response.redirect('https://' + MY_DOMAIN, 301);
+    return Response.redirect("https://" + MY_DOMAIN, 301);
   } else {
     response = await fetch(url.toString(), {
       body: request.body,
       headers: request.headers,
-      method: request.method
+      method: request.method,
     });
     response = new Response(response.body, response);
     response.headers.delete("Content-Security-Policy");
@@ -179,10 +180,13 @@ class HeadRewriter {
   element(element) {
     if (GOOGLE_FONT !== "") {
       element.append(
-        `<link href='https://fonts.googleapis.com/css?family=${GOOGLE_FONT.replace(' ', '+')}:Regular,Bold,Italic&display=swap' rel='stylesheet'>
+        `<link href='https://fonts.googleapis.com/css?family=${GOOGLE_FONT.replace(
+          " ",
+          "+"
+        )}:Regular,Bold,Italic&display=swap' rel='stylesheet'>
         <style>* { font-family: "${GOOGLE_FONT}" !important; }</style>`,
         {
-          html: true
+          html: true,
         }
       );
     }
@@ -198,7 +202,7 @@ class HeadRewriter {
       div.notion-topbar-mobile > div:nth-child(1n).toggle-mode { display: block !important; }
       </style>`,
       {
-        html: true
+        html: true,
       }
     );
   }
@@ -318,7 +322,7 @@ class BodyRewriter {
       };
     </script>${CUSTOM_SCRIPT}`,
       {
-        html: true
+        html: true,
       }
     );
   }
