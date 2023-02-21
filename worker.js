@@ -1,7 +1,7 @@
 /* CONFIGURATION STARTS HERE */
 
 /* Step 1: enter your domain name like fruitionsite.com */
-const MY_DOMAIN = "notion.exposir.com";
+const MY_DOMAIN = "notion.exposir.cn";
 
 /*
  * Step 2: enter your URL slug to page ID mapping
@@ -214,7 +214,15 @@ class BodyRewriter {
   }
   element(element) {
     element.append(
-      `
+      `<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c8f5e21a745fda4d5c2fbbe96394091b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+      </script>
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-35W0C8N7CY"></script>
       <script>
   window.dataLayer = window.dataLayer || [];
